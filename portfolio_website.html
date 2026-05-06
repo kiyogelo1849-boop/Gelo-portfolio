@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gelo Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Galaxy background */
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: black;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* Neon text */
+    .neon-text {
+      color: #cfd3ff;
+      text-shadow: 0 0 10px #6c7cff, 0 0 20px #4f5bff, 0 0 40px #2c35ff;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hover-glow:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(100,120,255,0.5);
+    }
+  </style>
+</head>
+<body class="text-white font-sans">
+
+<canvas id="stars"></canvas>
+
+<!-- Hero -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-6 fade-up">
+  <h1 class="text-5xl font-bold neon-text mb-4">Kiyo Gelo</h1>
+  <p class="text-gray-400 mb-6">Multimedia Virtual Assistant • Video Editor • Content Creator</p>
+  <a href="https://www.youtube.com/@wpkyo_" target="_blank" class="glass px-6 py-3 rounded-2xl hover-glow">
+    Watch My Work
+  </a>
+</section>
+
+<!-- Banner -->
+<section class="px-6 fade-up text-center">
+  <h2 class="text-3xl neon-text mb-6">Client Banner</h2>
+  <img src="banner.png" class="rounded-2xl glass hover-glow mx-auto max-w-full">
+</section>
+
+<!-- Video -->
+<section class="px-6 fade-up text-center mt-16">
+  <h2 class="text-3xl neon-text mb-6">Intro Sample</h2>
+  <video controls autoplay muted loop class="rounded-2xl glass hover-glow max-w-2xl w-full mx-auto">
+    <source src="boy.mp4" type="video/mp4">
+  </video>
+</section>
+
+<!-- Projects -->
+<section class="px-6 text-center fade-up mt-16">
+  <h2 class="text-3xl neon-text mb-6">Science Cinema Projects</h2>
+  <a href="https://drive.google.com/drive/folders/1Zid0G4gko-u-T0Wa07NV9gTRAnwcOBIq?usp=drive_link" target="_blank" class="glass px-6 py-3 rounded-2xl hover-glow">
+    View Projects
+  </a>
+</section>
+
+<footer class="text-center text-gray-500 py-10 fade-up">
+  © 2026 Kiyo Gelo
+</footer>
+
+<script>
+  // Fade animation
+  const elements = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
+    });
+  });
+  elements.forEach(el => observer.observe(el));
+
+  // Starfield animation
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let stars = [];
+
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5,
+      speed: Math.random() * 0.5
+    });
+  }
+
+  function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+
+    stars.forEach(star => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      star.y += star.speed;
+      if (star.y > canvas.height) {
+        star.y = 0;
+        star.x = Math.random() * canvas.width;
+      }
+    });
+
+    requestAnimationFrame(animateStars);
+  }
+
+  animateStars();
+</script>
+
+</body>
+</html>
